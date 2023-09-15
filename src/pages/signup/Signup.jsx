@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Signup.module.css'; // Import your existing styles
 
 export default function Signup() {
