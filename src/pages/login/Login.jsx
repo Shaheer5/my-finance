@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // styles 
 import styles from './Login.module.css'
@@ -7,19 +9,36 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isValid, setIsValid] = useState(false);
+
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(newPassword);
-    setIsValid(isValidPassword);
   };
 
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
-  }
+    if (!email && !password) {
+      toast.error("Please Enter Credentials", {autoClose: 2000});
+      return;
+    } else if (email === "") {
+      toast.error("Please Enter Email", {autoClose: 2000});
+      return;
+    } else if (password === "") {
+      toast.error("Please Enter Password", {autoClose: 2000});
+      return;
+    } else if (email === "freshfries@yes.com" && password === "12345") {
+      toast.success("Logged in", {autoClose: 2000});
+      setTimeout(() => {
+        navigate('/')
+      }, 2000);
+      return;
+    } else {
+      toast.error("Credentials are wrong", {autoClose: 2000});
+      return;
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className={styles['login-form']}>
@@ -32,6 +51,7 @@ export default function Login() {
           value={email}
           placeholder='name@email.com'
         />
+      <p>enter this username for test: <b>freshfries@yes.com</b></p>
       </label>
       <label>
         <span>Password</span>
@@ -41,11 +61,7 @@ export default function Login() {
           onChange={handlePasswordChange}
           placeholder='*********'
         />
-        {isValid ? (
-          <p>Password is valid!</p>
-        ) : (
-          <p>Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.</p>
-        )}
+      <p>enter this password for test: <b>12345</b></p>
       </label>
       <button className="btn">Login</button>
     </form>
