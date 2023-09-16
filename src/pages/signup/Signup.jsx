@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useSignup } from '../../hooks/useSignup';
 
 // Import your existing styles
 import styles from './Signup.module.css';
@@ -9,10 +10,11 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [displayName, setdisplayName] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+
+  const { signup, isPending, error } = useSignup();
 
   const navigate = useNavigate();
 
@@ -32,8 +34,7 @@ export default function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !firstName ||
-      !lastName ||
+      !displayName ||
       !email ||
       !password ||
       !confirmPassword
@@ -46,40 +47,30 @@ export default function Signup() {
       toast.warning("Passwords do not match. Please confirm your password.", {autoClose: 2000});
       return;
     } else if (isConfirmed) {
-      toast.success("Passwords Created Successfully, Navigating to Home Page", {autoClose: 2000});
+      signup(displayName, email, password);
       setTimeout(() => {
         navigate('/')
       }, 2000);
       return;
     }
-    console.log(email, password);
+    console.log(error);
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles['signup-form']}>
       <h2>Signup</h2>
       <label>
-        <span>First Name:</span>
+        <span>username:</span>
         <input
           type="text"
-          onChange={(e) => setFirstName(e.target.value)}
-          value={firstName}
-          placeholder='First Name'
+          onChange={(e) => setdisplayName(e.target.value)}
+          value={displayName}
+          placeholder='freshfries01'
           // required
         />
       </label>
       <label>
-        <span>Last Name:</span>
-        <input
-          type="text"
-          onChange={(e) => setLastName(e.target.value)}
-          value={lastName}
-          placeholder='Last Name'
-          // required
-        />
-      </label>
-      <label>
-        <span>Email:</span>
+        <span>email:</span>
         <input
           type="text"
           onChange={(e) => setEmail(e.target.value)}
@@ -89,7 +80,7 @@ export default function Signup() {
         />
       </label>
       <label>
-        <span>Password:</span>
+        <span>password:</span>
         <input
           type="password"
           value={password}
@@ -101,11 +92,11 @@ export default function Signup() {
         {isValid ? (
           <p>Password is valid!</p>
         ) : (
-          <p>Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.</p>
+          <p>Password must contain at least one uppercase & lowercase letter, one digit, one special character, and be at least 8 characters long.</p>
         )}
       </label>
       <label>
-        <span>Confirm Password:</span>
+        <span>confirm password:</span>
         <input
           type="password"
           value={confirmPassword}
@@ -120,7 +111,8 @@ export default function Signup() {
           <p>Password must match</p>
         )}
       </label>
-      <button className="btn">Signup</button>
+      {!isPending && <button className="btn">Signup</button>}
+      {isPending && <button className='btn-loading' disabled>loading</button>}
     </form>
   );
 }

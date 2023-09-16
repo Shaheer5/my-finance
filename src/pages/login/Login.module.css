@@ -16,6 +16,7 @@
   font-size: 1em;
   color: #777;
   width: 100%;
+  box-sizing: border-box;
 }
 .login-form p {
   font-size: 12px;

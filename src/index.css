@@ -23,6 +23,16 @@ ul {
   cursor: pointer;
   font-size: 1em;
 }
+.btn-loading {
+  background: none;
+  border: 2px solid #a4a4a4;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #a4a4a4;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: no-drop;
+}
 .btn:hover {
   background: #1f9751;
   color: #fff;

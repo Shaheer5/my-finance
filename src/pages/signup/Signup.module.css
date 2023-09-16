@@ -1,5 +1,5 @@
 .signup-form {
-  max-width: 360px;
+  max-width: 340px;
   margin: 60px auto;
   padding: 20px;
 }
@@ -16,6 +16,7 @@
   font-size: 1em;
   color: #777;
   width: 100%;
+  box-sizing: border-box;
 }
 .signup-form p {
   font-size: 12px;
