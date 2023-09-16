@@ -13,7 +13,6 @@ export default function Signup() {
   const [displayName, setdisplayName] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
-
   const { signup, isPending, error } = useSignup();
 
   const navigate = useNavigate();

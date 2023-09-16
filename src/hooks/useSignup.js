@@ -24,7 +24,7 @@ export const useSignup = () => {
 
       setIsPending(false);
       setError(null)
-      toast.success("Account created successfully, redirecting to Home page", {autoClose: 2000})
+      toast.success("Account created successfully", {autoClose: 2000})
     }
     catch (err) {
       console.log(err.message);
