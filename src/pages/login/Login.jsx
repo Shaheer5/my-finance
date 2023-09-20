@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useLogin } from '../../hooks/useLogin';
 
 // styles 
 import styles from './Login.module.css'
@@ -9,14 +10,10 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, error, isPending } = useLogin();
+  
+  const navigate = useNavigate();
 
-
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-  };
-
-  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email && !password) {
@@ -28,16 +25,15 @@ export default function Login() {
     } else if (password === "") {
       toast.error("Please Enter Password", {autoClose: 2000});
       return;
-    } else if (email === "freshfries@yes.com" && password === "12345") {
-      toast.success("Logged in", {autoClose: 2000});
-      setTimeout(() => {
-        navigate('/')
-      }, 2000);
+    } else if (email && password) {
+        login(email, password)
+        navigate('/');
       return;
     } else {
       toast.error("Credentials are wrong", {autoClose: 2000});
       return;
     }
+    console.log(error);
   };
 
   return (
@@ -58,12 +54,13 @@ export default function Login() {
         <input
           type="password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder='*********'
         />
       <p>enter this password for test: <b>12345</b></p>
       </label>
-      <button className="btn">Login</button>
+      {!isPending && <button className="btn">Login</button>}
+      {isPending && <button className='btn-loading' disabled>loading</button>}
     </form>
   )
 } 
