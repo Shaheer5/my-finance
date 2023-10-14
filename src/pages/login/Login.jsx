@@ -33,7 +33,6 @@ export default function Login() {
       toast.error("Credentials are wrong", {autoClose: 2000});
       return;
     }
-    console.log(error);
   };
 
   return (
@@ -47,7 +46,6 @@ export default function Login() {
           value={email}
           placeholder='name@email.com'
         />
-      <p>enter this username for test: <b>freshfries@yes.com</b></p>
       </label>
       <label>
         <span>Password</span>
@@ -57,7 +55,6 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder='*********'
         />
-      <p>enter this password for test: <b>12345</b></p>
       </label>
       {!isPending && <button className="btn">Login</button>}
       {isPending && <button className='btn-loading' disabled>loading</button>}
