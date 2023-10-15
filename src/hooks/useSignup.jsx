@@ -21,7 +21,7 @@ export const useSignup = () => {
         throw new Error("Couldn't complete signup")
       }
 
-      // add display name to user 
+      // create display name to user 
       await response.user.updateProfile({ displayName })
 
       // dispatch login action
