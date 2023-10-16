@@ -26,11 +26,10 @@ export default function Login() {
       toast.error("Please Enter Password", {autoClose: 2000});
       return;
     } else if (email && password) {
-        login(email, password)
-        navigate('/');
+        login(email, password);
       return;
     } else {
-      toast.error("Credentials are wrong", {autoClose: 2000});
+      toast.error(error.message, {autoClose: 2000});
       return;
     }
   };

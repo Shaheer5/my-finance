@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react"
-import { projectAuth } from "../firebase/config"
+import { useEffect, useState } from "react";
+import { projectAuth } from "../firebase/config";
 import { toast } from 'react-toastify';
 import { useAuthContext } from "./useAuthContext";
 
 export const useLogin = () => {
-  const [isCancelled, setIsCancelled] = useState(false);
-  const [error, setError] = useState(null);
-  const [isPending, setIsPending] = useState(false);
+  const [ isCancelled, setIsCancelled ] = useState(false);
+  const [ error, setError ] = useState(null);
+  const [ isPending, setIsPending ] = useState(false);
   const { dispatch } = useAuthContext();
 
   const login = async (email, password) => {
     setError(null);
     setIsPending(true);
 
-    // sign the user out
+    // Sign the user in
     try {
       const response = await projectAuth.signInWithEmailAndPassword(email, password);
 
-      // dispatch login action
+      // Dispatch login action
       dispatch({ type: "LOGIN", payload: response.user });
 
-      // updating state if the component is unmounted
+      // Update state if the component is Cancelled
       if (!isCancelled) {
         setIsPending(false);
         setError(null);
@@ -29,18 +29,18 @@ export const useLogin = () => {
     }
     catch (err) {
       if (!isCancelled) {
-        console.log(err.messaga);
-        setError(err.messaga);
+        setError(err.message);
         setIsPending(false);
-        toast.error(err.messaga, { autoClose: 2000 });
+        toast.error("Email or Password is Invalid", { autoClose: 2000 });
       }
     }
-  }
 
-  // cleanup function
-  useEffect(() => {
-    return () => setIsCancelled(true);
-  }, []);
+    // cleanup function
+    useEffect(() => {
+      return () => setIsCancelled(true);
+    }, [])
+    
+  };
   
-  return { login, error, isPending }
-}
+  return { login, error, isPending };
+};
