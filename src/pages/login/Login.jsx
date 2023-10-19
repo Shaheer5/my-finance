@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { useLogin } from '../../hooks/useLogin';
+import { Link } from 'react-router-dom';
 
 // styles 
 import styles from './Login.module.css'
@@ -55,6 +56,10 @@ export default function Login() {
       </label>
       {!isPending && <button className="btn">Login</button>}
       {isPending && <button className='btn-loading' disabled>loading</button>}
+      <Link 
+      to={'/signup'}
+      style={{ color: "blue", fontSize: "14px", textAlign: "end"}}
+       ><span>create an account</span></Link>
     </form>
   )
 } 

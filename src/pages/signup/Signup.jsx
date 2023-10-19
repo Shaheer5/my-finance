@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSignup } from '../../hooks/useSignup';
+import { Link } from 'react-router-dom';
 
 // Import your existing styles
 import styles from './Signup.module.css';
@@ -15,8 +15,6 @@ export default function Signup() {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const { signup, isPending, error } = useSignup();
 
-  const navigate = useNavigate();
-
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -29,7 +27,7 @@ export default function Signup() {
     setConfirmPassword(e.target.value);
     setIsConfirmed(password === e.target.value);
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -38,18 +36,15 @@ export default function Signup() {
       !password ||
       !confirmPassword
     ) {
-      toast.error("Please fill out each input fields", {autoClose: 2000});
+      toast.error("Please fill out each input fields", { autoClose: 2000 });
     } else if (!isValid) {
-      toast.error("Password is invalid. Please follow the password requirements.", {autoClose: 2000});
+      toast.error("Password is invalid. Please follow the password requirements.", { autoClose: 2000 });
       return;
     } else if (!isConfirmed) {
-      toast.warning("Passwords do not match. Please confirm your password.", {autoClose: 2000});
+      toast.warning("Passwords do not match. Please confirm your password.", { autoClose: 2000 });
       return;
     } else if (isConfirmed) {
       signup(displayName, email, password);
-      setTimeout(() => {
-        navigate('/')
-      }, 2000);
       return;
     }
     console.log(error);
@@ -65,7 +60,7 @@ export default function Signup() {
           onChange={(e) => setdisplayName(e.target.value)}
           value={displayName}
           placeholder='freshfries01'
-          // required
+        // required
         />
       </label>
       <label>
@@ -75,7 +70,7 @@ export default function Signup() {
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           placeholder='name@email.com'
-          // required
+        // required
         />
       </label>
       <label>
@@ -86,7 +81,7 @@ export default function Signup() {
           onChange={handlePasswordChange}
           placeholder='*********'
           className={isValid ? styles['valid-input'] : styles['invalid-input']}
-          // required
+        // required
         />
         {isValid ? (
           <p>Password is valid!</p>
@@ -102,7 +97,7 @@ export default function Signup() {
           onChange={handleConfirmPassword}
           placeholder='*********'
           className={isConfirmed ? styles['valid-input'] : styles['invalid-input']}
-          // required
+        // required
         />
         {isConfirmed ? (
           <p>Password Matched</p>
@@ -112,6 +107,10 @@ export default function Signup() {
       </label>
       {!isPending && <button className="btn">Signup</button>}
       {isPending && <button className='btn-loading' disabled>loading</button>}
+      <Link
+        to={'/login'}
+        style={{ color: "blue", fontSize: "14px", textAlign: "end" }}
+      ><span>login instead</span></Link>
     </form>
   );
 }

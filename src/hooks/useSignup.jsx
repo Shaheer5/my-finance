@@ -2,12 +2,15 @@ import { useEffect, useState } from "react"
 import { projectAuth } from "../firebase/config"
 import { toast } from 'react-toastify';
 import { useAuthContext } from "./useAuthContext";
+import { useNavigate } from 'react-router-dom';
 
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const { dispatch } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const signup = async (displayName, email, password) => {
     setError(null);
@@ -30,8 +33,9 @@ export const useSignup = () => {
       // updating state if the component is unmounted
       if (!isCancelled) {
         setIsPending(false);
-        setError(null)
+        setError(null);
         toast.success("Account created successfully", { autoClose: 2000 });
+        navigate("/");
       }
     }
     catch (err) {
