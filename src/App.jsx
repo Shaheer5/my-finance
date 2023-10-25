@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       {authIsReady && (
-        <BrowserRouter basename="/my-finance/">
+        <BrowserRouter>
           <Navbar />
           <Routes>
             <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
