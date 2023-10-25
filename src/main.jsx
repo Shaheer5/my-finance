@@ -8,9 +8,7 @@ import { HashRouter as Router } from 'react-router-dom'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>
-      <Router>
-        <App />
-      </Router>
+      <App />
     </AuthContextProvider>
   </React.StrictMode>,
 )
