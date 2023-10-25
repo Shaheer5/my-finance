@@ -1,7 +1,7 @@
 {
   "name": "my-finance",
   "private": false,
-  "homepage": "https://shaheer5.github.io/my-finance/",
+  "homepage": "https://shaheer5.github.io/my-finance",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
