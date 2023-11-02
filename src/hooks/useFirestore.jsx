@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { projectFirestore, timestamp } from '../firebase/config';
 import { useReducer, useState, useEffect } from 'react';
 
@@ -10,12 +11,14 @@ let initialState = {
 
 const firestoreReducer = (state, action) => {
   switch (action.type) {
-    case "IS_PENDING":
-      return {success: false, isPending: true, error: null, document: null}
-    case "ERROR":
-      return {success: false, isPending: false, error: action.payload, document: null}
-    case "ADDED_DOCUMENT":
-      return {success: true, isPending: false, error: null, document: action.payload}
+    case 'IS_PENDING':
+      return { isPending: true, document: null, success: false, error: null }
+    case 'ADDED_DOCUMENT':
+      return { isPending: false, document: action.payload, success: true, error: null }
+    case 'DELETED_DOCUMENT':
+      return { isPending: false, document: null, success: true, error: null }
+    case 'ERROR':
+      return { isPending: false, document: null, success: false, error: action.payload }
     default:
       return state;
   }
@@ -24,7 +27,7 @@ export const useFirestore = (collection) => {
 
   const [response, dispatch] = useReducer(firestoreReducer, initialState);
   const [isCancelled, setIsCancelled] = useState(false);
-  
+
   // collection ref
   const ref = projectFirestore.collection(collection)
 
@@ -46,12 +49,24 @@ export const useFirestore = (collection) => {
     }
     catch (err) {
       dispatchIfNotCancelled({ type: "ERROR", payload: err.message })
+      toast.error("couldn't add transaction", err.message , { autoClose: 2000 });
     }
 
   }
 
   // delete a document
   const deleteDocument = async (id) => {
+    dispatch({ type: "IS_PENDING" })
+
+    try {
+      await ref.doc(id).delete();
+      dispatchIfNotCancelled({ type: "DELETED_DOCUMENT" })
+      toast.success("Transaction Deleted", { autoClose: 2000 });
+    }
+    catch (err) {
+      dispatchIfNotCancelled({ type: "ERROR", payload: err.message });
+      toast.error("couldn't delete transaction", err.message, { autoClose: 2000 });
+    }
 
   }
 
