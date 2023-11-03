@@ -13,25 +13,20 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <ul className="">
-        <li className={styles.title}><Link to="/">myFinance</Link></li>
+      <div className={styles.title}><Link to="/">myFinance</Link></div>
 
-        {user ?
-          (
-            <>
-              <li>Hello, <span style={{textTransform: "capitalize", fontWeight: "bold"}}>{user.displayName}</span></li>
-              <li>
-                <button className="btn" onClick={logout} >Logout</button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li style={{marginRight: "4px"}}><Link to="/login">Login</Link></li>
-              <li><Link to="/signup">Signup</Link></li>
-            </>
-          )}
-
-      </ul>
+      {user ?
+        (
+          <div className={styles.navRight}>
+            <p>Hello, <span style={{ textTransform: "capitalize", fontWeight: "bold", textAlign: 'right' }}>{user.displayName}</span></p>
+            <button className="btn" onClick={logout} >Logout</button>
+          </div>
+        ) : (
+          <div className={styles.navRight}>
+            <p style={{ marginRight: "8px" }}><Link to="/login">Login</Link></p>
+            <Link to="/signup">Signup</Link>
+          </div>
+        )}
     </nav>
   )
 }

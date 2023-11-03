@@ -5,15 +5,16 @@
   margin: 60px auto;
 }
 .content {
-  padding-right: 30px;
+  width: 540px;
+  max-width: 540px;
 }
-.sidebar {
-  padding-left: 30px;
-}
+
 .sidebar form {
   padding: 20px;
   background: #1f9751;
   border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 .sidebar input, .sidebar select {
   display: block;
@@ -89,4 +90,17 @@
   line-height: 0;
   font-size: 0.9em;
   cursor: pointer;
+}
+
+@media screen and (max-width: 984px) {
+  .container {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 2rem;
+    margin: 1rem;
+  }
+  .content {
+    margin: 0 auto;
+    max-width: 100%;
+  }
 }
